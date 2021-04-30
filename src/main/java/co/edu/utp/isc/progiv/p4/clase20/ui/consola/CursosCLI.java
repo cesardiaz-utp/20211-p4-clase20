@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.edu.utp.isc.progiv.p4.clase20.ui.consola;
 
 import co.edu.utp.isc.progiv.p4.clase20.datos.entidades.Estudiante;
@@ -13,9 +8,9 @@ import co.edu.utp.isc.progiv.p4.clase20.excepciones.NoEncontradoException;
 
 /**
  *
- * @author cdiaz
+ * @author DanielG
  */
-public class EstudiantesCLI {
+public class CursosCLI {
 
     private static final UniversidadFacade facade;
 
@@ -23,51 +18,51 @@ public class EstudiantesCLI {
         facade = new UniversidadFacade();
     }
 
-    public static void menuEstudiantes() {
+    public static void menuCursos() {
         String opcion;
         do {
             System.out.println("\n\n");
             System.out.println("========================================================");
-            System.out.println(" Gestión de Estudiantes");
+            System.out.println(" Gestión de Cursos");
             System.out.println("--------------------------------------------------------");
-            System.out.println("1. Listado de estudiantes");
-            System.out.println("2. Consultar un estudiante por ID");
-            System.out.println("3. Agregar un estudiante");
-            System.out.println("4. Modificar un estudiante");
-            System.out.println("5. Eliminar un estudiante");
+            System.out.println("1. Listado de Cursos");
+            System.out.println("2. Consultar un Curso por ID");
+            System.out.println("3. Agregar un Curso");
+            System.out.println("4. Modificar un Curso");
+            System.out.println("5. Eliminar un Curso");
             System.out.println("0. Salir");
             System.out.println("========================================================");
             opcion = EntradaTecladoUtils.obtenerOpcion("1,2,3,4,5,0".split(","));
             switch (opcion) {
                 case "1":
-                    listarEstudiantes();
+                    listarCursos();
                     break;
                 case "2":
-                    consultarEstudiante();
+                    consultarCurso();
                     break;
                 case "3":
-                    agregarEstudiante();
+                    agregarCurso();
                     break;
                 case "4":
-                    modificarEstudiantes();
+                    modificarCurso();
                     break;
                 case "5":
-                    eliminarEstudiante();
+                    eliminarCurso();
                     break;
             }
         } while (!opcion.equals("0"));
         System.out.println("Hasta luego!");
     }
 
-    private static void listarEstudiantes() {
+    private static void listarCursos() {
         System.out.println("\n\n");
         System.out.println("========================================================");
-        System.out.println(" Listado de estudiantes");
+        System.out.println(" Listado de Cursos");
         System.out.println("========================================================");
         try {
-            facade.listarEstudiantes()
-                    .forEach(estudiante -> {
-                        System.out.println(estudiante.toString());
+            facade.listarCursos()
+                    .forEach(curso -> {
+                        System.out.println(curso.toString());
                     });
         } catch (BaseDatosException ex) {
             System.err.println("Error con base de datos: " + ex.getMessage());
@@ -78,14 +73,14 @@ public class EstudiantesCLI {
         EntradaTecladoUtils.presionaParaContinuar();
     }
 
-    private static void consultarEstudiante() {
+    private static void consultarCurso() {
         System.out.println("\n\n");
         System.out.println("========================================================");
-        System.out.println(" Consultar estudiante");
+        System.out.println(" Consultar curso");
         System.out.println("========================================================");
         String valor;
         do {
-            valor = EntradaTecladoUtils.obtenerCadena("Ingrese la identificación del estudiante: ");
+            valor = EntradaTecladoUtils.obtenerCadena("Ingrese la identificación del curso: ");
 
             if (valor == null
                     || valor.trim().isBlank()
@@ -97,21 +92,21 @@ public class EstudiantesCLI {
 
         var id = Long.valueOf(valor);
         try {
-            System.out.println(facade.consultarEstudiante(id));
+            System.out.println(facade.consultarCurso(id));
         } catch (NoEncontradoException ex) {
             System.err.println(ex.getMessage());
         }
         EntradaTecladoUtils.presionaParaContinuar();
     }
 
-    private static void eliminarEstudiante() {
+    private static void eliminarCurso() {
         System.out.println("\n\n");
         System.out.println("========================================================");
-        System.out.println(" Eliminar estudiante");
+        System.out.println(" Eliminar curso");
         System.out.println("========================================================");
         String valor;
         do {
-            valor = EntradaTecladoUtils.obtenerCadena("Ingrese la identificación del estudiante: ");
+            valor = EntradaTecladoUtils.obtenerCadena("Ingrese la identificación del curso: ");
 
             if (valor == null
                     || valor.trim().isBlank()
@@ -123,40 +118,42 @@ public class EstudiantesCLI {
 
         var id = Long.valueOf(valor);
         try {
-            facade.eliminarEstudiante(id);
+            facade.eliminarCurso(id);
         } catch (NoEncontradoException ex) {
             System.err.println(ex.getMessage());
         }
         EntradaTecladoUtils.presionaParaContinuar();
     }
 
-    private static void agregarEstudiante() {
+    private static void agregarCurso() {
         System.out.println("\n\n");
         System.out.println("========================================================");
-        System.out.println(" Agregar un estudiante");
+        System.out.println(" Agregar un curso");
         System.out.println("========================================================");
-        String nombre = EntradaTecladoUtils.obtenerCadena("Ingresa por favor los nombres:");
-        String apellido = EntradaTecladoUtils.obtenerCadena("Ingresa por favor los apellidos:");
-        String telefono = EntradaTecladoUtils.obtenerCadena("Ingresa por favor el número de contacto:");
+        String nombre = EntradaTecladoUtils.obtenerCadena("Ingresa por favor el nombre del curso:");
+        String nombreProfesor = EntradaTecladoUtils.obtenerCadena("Ingresa por favor el nombre del profesor:");
+        String grupo = EntradaTecladoUtils.obtenerCadena("Ingresa por favor el número del grupo:");
+        String creditos = EntradaTecladoUtils.obtenerCadena("Ingresa por favor el número de creditos:");
+        String numeroAlumnos = EntradaTecladoUtils.obtenerCadena("Ingresa por favor el número de alumnos:");
 
         try {
-            var estudiante = facade.guardarEstudiante(nombre, apellido, telefono);
-            System.out.println("Se ha creado el estudiante:\n" + estudiante);
+            var curso = facade.guardarCurso(nombre, nombreProfesor, grupo, creditos, numeroAlumnos);
+            System.out.println("Se ha creado el curso:\n" + curso);
         } catch (BaseDatosException ex) {
-            System.err.println("Error al guardar el estudiante: " + ex.getMessage());
+            System.err.println("Error al guardar el curso: " + ex.getMessage());
         }
         EntradaTecladoUtils.presionaParaContinuar();
     }
 
-    public static void modificarEstudiantes() {
+    public static void modificarCurso() {
         System.out.println("\n\n");
         System.out.println("========================================================");
-        System.out.println(" Modificar estudiante");
+        System.out.println(" Modificar curso");
         System.out.println("========================================================");
         String valor;
         String opcion;
         do {
-            valor = EntradaTecladoUtils.obtenerCadena("Ingrese la identificación del estudiante: ");
+            valor = EntradaTecladoUtils.obtenerCadena("Ingrese la identificación del curso: ");
 
             if (valor == null
                     || valor.trim().isBlank()
@@ -168,39 +165,57 @@ public class EstudiantesCLI {
 
         var id = Long.valueOf(valor);
         try {
-            System.out.println(facade.consultarEstudiante(id));
+            System.out.println(facade.consultarCurso(id));
             System.out.println("========================================================");
             System.out.println(" Opciones de Edición");
             System.out.println("--------------------------------------------------------");
-            System.out.println("1. Editar Nombres");
-            System.out.println("2. Editar Apellidos");
-            System.out.println("3. Editar N° de Telefono ");
+            System.out.println("1. Editar Nombre del Curso");
+            System.out.println("2. Editar Nombre del Profesor");
+            System.out.println("3. Editar N° de Grupo");
+            System.out.println("4. Editar N° de Creditos");
+            System.out.println("5. Editar N° de Alumnos");
             System.out.println("========================================================");
-            opcion = EntradaTecladoUtils.obtenerOpcion("1,2,3".split(","));
+            opcion = EntradaTecladoUtils.obtenerOpcion("1,2,3,4,5".split(","));
             switch (opcion) {
                 case "1":
-                    String nombres = EntradaTecladoUtils.obtenerCadena("Ingrese el/los nuevo/s nombre/s");
-                try {
-                    System.out.println(facade.modificarEstudiante(id, 1, nombres));
-                } catch (NoEncontradoException ex) {
-                    System.err.println(ex.getMessage());
-                }
+                    String nombre = EntradaTecladoUtils.obtenerCadena("Ingrese el nuevo nombre del curso");
+                    try {
+                        System.out.println(facade.modificarCurso(id, 1, nombre));
+                    } catch (NoEncontradoException ex) {
+                        System.err.println(ex.getMessage());
+                    }
                     break;
                 case "2":
-                    String apellidos = EntradaTecladoUtils.obtenerCadena("Ingrese el/los nuevo/s apellido/s");
-                try {
-                    System.out.println( facade.modificarEstudiante(id, 2, apellidos));
-                } catch (NoEncontradoException ex) {
-                    System.err.println(ex.getMessage());
-                }
+                    String nombreProfesor = EntradaTecladoUtils.obtenerCadena("Ingrese el nuevo nombre del profesor del curso");
+                    try {
+                        System.out.println( facade.modificarCurso(id, 2, nombreProfesor));
+                    } catch (NoEncontradoException ex) {
+                        System.err.println(ex.getMessage());
+                    }
                     break;
                 case "3":
-                    String telefono = EntradaTecladoUtils.obtenerCadena("Ingrese el nuevo número telefonico");
-                try {
-                    System.out.println( facade.modificarEstudiante(id, 3, telefono));
-                } catch (NoEncontradoException ex) {
-                    System.err.println(ex.getMessage());
-                }
+                    String grupo = EntradaTecladoUtils.obtenerCadena("Ingrese el nuevo número del grupo");
+                    try {
+                        System.out.println( facade.modificarCurso(id, 3, grupo));
+                    } catch (NoEncontradoException ex) {
+                        System.err.println(ex.getMessage());
+                    }
+                    break;
+                case "4":
+                    String creditos = EntradaTecladoUtils.obtenerCadena("Ingrese el nuevo número de creditos");
+                    try {
+                        System.out.println( facade.modificarCurso(id, 4, creditos));
+                    } catch (NoEncontradoException ex) {
+                        System.err.println(ex.getMessage());
+                    }
+                    break;
+                case "5":
+                    String numeroAlumnos = EntradaTecladoUtils.obtenerCadena("Ingrese el nuevo número de alumnos");
+                    try {
+                        System.out.println( facade.modificarCurso(id, 5, numeroAlumnos));
+                    } catch (NoEncontradoException ex) {
+                        System.err.println(ex.getMessage());
+                    }
                     break;
                 default:
                     System.out.println("Opcion inválida");

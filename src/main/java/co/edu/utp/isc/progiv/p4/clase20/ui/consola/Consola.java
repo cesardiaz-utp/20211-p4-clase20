@@ -25,12 +25,16 @@ public class Consola {
             System.out.println(" Bienvenidos a la Gestion Universitaria");
             System.out.println("--------------------------------------------------------");
             System.out.println("1. Gestion de estudiantes");
+            System.out.println("2. Gestion de cursos");
             System.out.println("0. Salir");
             System.out.println("========================================================");
-            opcion = EntradaTecladoUtils.obtenerOpcion("1,0".split(","));
+            opcion = EntradaTecladoUtils.obtenerOpcion("1,2,0".split(","));
             switch (opcion) {
                 case "1":
                     EstudiantesCLI.menuEstudiantes();
+                    break;
+                case "2":
+                    CursosCLI.menuCursos();
                     break;
             }
         } while (!opcion.equals("0"));
