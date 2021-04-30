@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.edu.utp.isc.progiv.p4.clase20.datos.dao;
 
 import co.edu.utp.isc.progiv.p4.clase20.excepciones.BaseDatosException;
-import co.edu.utp.isc.progiv.p4.clase20.datos.entidades.Estudiante;
+import co.edu.utp.isc.progiv.p4.clase20.datos.entidades.Curso;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -14,41 +9,44 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author cdiaz
+ * @author DanielG
  */
-public class EstudianteDao {
+public class CursoDao {
 
-    private static EstudianteDao instancia;
+    private static CursoDao instancia;
 
-    public static EstudianteDao getInstance() {
+    public static CursoDao getInstance() {
         if (instancia == null) {
-            instancia = new EstudianteDao();
+            instancia = new CursoDao();
         }
         return instancia;
     }
 
     private final EntityManagerFactory emf;
 
-    private EstudianteDao() {
+    private CursoDao() {
         emf = Persistence.createEntityManagerFactory("clase20-pu");
     }
 
-    public Estudiante guardar(String nombres, String apellidos, String telefono) throws BaseDatosException {
+    public Curso guardar(String nombre, String nombreProfesor, String grupo, String creditos, String numeroAlumnos ) throws BaseDatosException {
         var em = emf.createEntityManager();
         EntityTransaction et = null;
         try {
             et = em.getTransaction();
             et.begin();
 
-            Estudiante estudiante = new Estudiante();
-            estudiante.setNombres(nombres);
-            estudiante.setApellidos(apellidos);
-            estudiante.setTelefono(telefono);
+            Curso curso = new Curso();
+            curso.setNombre(nombre);
+            curso.setNombreProfesor(nombreProfesor);
+            curso.setGrupo(grupo);
+            curso.setCreditos(creditos);
+            curso.setNumeroAlumnos(numeroAlumnos);
 
-            em.persist(estudiante);
+
+            em.persist(curso);
             et.commit();
 
-            return estudiante;
+            return curso;
         } catch (Exception ex) {
             if (et != null) {
                 et.rollback();
@@ -59,9 +57,9 @@ public class EstudianteDao {
         }
     }
 
-    public List<Estudiante> listar() throws BaseDatosException {
+    public List<Curso> listar() throws BaseDatosException {
         var em = emf.createEntityManager();
-        var query = em.createQuery("select e from Estudiante e", Estudiante.class);
+        var query = em.createQuery("select e from Curso e", Curso.class);
 
         try {
             return query.getResultList();
@@ -72,20 +70,20 @@ public class EstudianteDao {
         }
     }
 
-    public Estudiante consultar(Long id) throws BaseDatosException {
+    public Curso consultar(Long id) throws BaseDatosException {
         var em = emf.createEntityManager();
-        Estudiante estudiante = null;
+        Curso curso = null;
         try {
-            var query = em.createQuery("select e from Estudiante e where e.id = :id", Estudiante.class);
+            var query = em.createQuery("select e from Curso e where e.id = :id", Curso.class);
             query.setParameter("id", id);
             
-            estudiante = query.getSingleResult();
+            curso = query.getSingleResult();
         } catch (Exception ex) {
             throw new BaseDatosException(ex.getMessage());
         } finally {
             em.close();
         }
-        return estudiante;
+        return curso;
     }
 
     public void eliminar(Long id) throws BaseDatosException {
@@ -95,8 +93,8 @@ public class EstudianteDao {
             et = em.getTransaction();
             et.begin();
 
-            Estudiante estudiante = em.find(Estudiante.class, id);
-            em.remove(estudiante);
+            Curso curso = em.find(Curso.class, id);
+            em.remove(curso);
             et.commit();
 
         } catch (Exception ex) {
@@ -106,28 +104,34 @@ public class EstudianteDao {
         }
     }
 
-    public Estudiante modificar(Long id, Integer option, String nuevaInfo) throws BaseDatosException {
+    public Curso modificar(Long id, Integer option, String nuevaInfo) throws BaseDatosException {
         var em = emf.createEntityManager();
         EntityTransaction et = null;
         try {
             et = em.getTransaction();
             et.begin();
 
-            Estudiante estudiante = em.find(Estudiante.class, id);
+            Curso curso = em.find(Curso.class, id);
 
             if(option == 1){
-                estudiante.setNombres(nuevaInfo);
+                curso.setNombre(nuevaInfo);
             }
             if(option == 2){
-                estudiante.setApellidos(nuevaInfo);
+                curso.setNombreProfesor(nuevaInfo);
             }
             if(option == 3){
-                estudiante.setTelefono(nuevaInfo);
+                curso.setGrupo(nuevaInfo);
+            }
+            if(option == 4){
+                curso.setCreditos(nuevaInfo);
+            }
+            if(option == 5){
+                curso.setNumeroAlumnos(nuevaInfo);
             }
 
             et.commit();
 
-            return estudiante;
+            return curso;
         } catch (Exception ex) {
             if (et != null) {
                 et.rollback();
