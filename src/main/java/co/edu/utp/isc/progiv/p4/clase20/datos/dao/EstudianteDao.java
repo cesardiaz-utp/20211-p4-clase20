@@ -61,7 +61,8 @@ public class EstudianteDao {
 
     public List<Estudiante> listar() throws BaseDatosException {
         var em = emf.createEntityManager();
-        var query = em.createQuery("select e from Estudiante e", Estudiante.class);
+        var query = em.createQuery("select e from Estudiante e", Estudiante.class); // JPQL
+//        var query = em.createNativeQuery("select ID, LNAME, FNAME, CONTACT_NO from Student e", Estudiante.class); // SQL
 
         try {
             return query.getResultList();

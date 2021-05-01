@@ -6,6 +6,7 @@
 package co.edu.utp.isc.progiv.p4.clase20;
 
 import co.edu.utp.isc.progiv.p4.clase20.ui.consola.Consola;
+import co.edu.utp.isc.progiv.p4.clase20.ui.gui.FrmUniversidad;
 
 /**
  *
@@ -15,7 +16,8 @@ public class Main {
 
     public static void main(String[] args) {
         // Mostrar aplicacion de consola
-        Consola.iniciar();
+        //Consola.iniciar();
+        new FrmUniversidad().setVisible(true);
     }
 
 }
