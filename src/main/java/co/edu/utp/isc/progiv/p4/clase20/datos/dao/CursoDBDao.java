@@ -6,7 +6,6 @@
 package co.edu.utp.isc.progiv.p4.clase20.datos.dao;
 
 import co.edu.utp.isc.progiv.p4.clase20.datos.entidades.Curso;
-import co.edu.utp.isc.progiv.p4.clase20.datos.entidades.Estudiante;
 import co.edu.utp.isc.progiv.p4.clase20.excepciones.BaseDatosException;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
@@ -64,5 +63,22 @@ public class CursoDBDao extends CursoDao {
         } finally {
             em.close();
         }
+    }
+    
+    @Override
+    public Curso consultar(String codigo) throws BaseDatosException {
+        var em = emf.createEntityManager();
+        Curso curso = null;
+        try {
+            var query = em.createQuery("select e from Curso e where e.codigo = :codigo", Curso.class);
+            query.setParameter("codigo", codigo);
+            
+            curso = query.getSingleResult();
+        } catch (Exception ex) {
+            throw new BaseDatosException(ex.getMessage());
+        } finally {
+            em.close();
+        }
+        return curso;
     }
 }

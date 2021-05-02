@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -27,14 +28,15 @@ public class CursoFileDao extends CursoDao {
     public List<Curso> listar() throws BaseDatosException {
         var respuesta = new ArrayList<Curso>();
         try (var br = new BufferedReader(new FileReader(FILE_NAME))) {
-            br.lines().forEach(cadena -> {
-                var datos = cadena.split(";");
-                var curso = new Curso();
-                curso.setCodigo(datos[0]);
-                curso.setNombre(datos[1]);
-                curso.setSemestre(Integer.valueOf(datos[2]));
-                respuesta.add(curso);
-            });
+            br.lines()
+                    .map(cadena -> cadena.split(";"))
+                    .forEach(datos -> {
+                        var curso = new Curso();
+                        curso.setCodigo(datos[0]);
+                        curso.setNombre(datos[1]);
+                        curso.setSemestre(Integer.valueOf(datos[2]));
+                        respuesta.add(curso);
+                    });
         } catch (IOException ex) {
             throw new BaseDatosException("Error al listar: " + ex.getMessage());
         }
@@ -44,7 +46,7 @@ public class CursoFileDao extends CursoDao {
     @Override
     public Curso agregar(String codigo, String nombre, Integer semestre) throws BaseDatosException {
         var curso = new Curso();
-        try (var pw = new PrintWriter(new FileWriter(FILE_NAME))) {
+        try (var pw = new PrintWriter(new FileWriter(FILE_NAME, true))) {
             pw.printf("%s;%s;%d%n", codigo, nombre, semestre);
 
             curso.setCodigo(codigo);
@@ -55,6 +57,28 @@ public class CursoFileDao extends CursoDao {
         }
 
         return curso;
+    }
+
+    @Override
+    public Curso consultar(String codigo) throws BaseDatosException {
+        Curso respuesta = null;
+        try (var br = new BufferedReader(new FileReader(FILE_NAME))) {
+            respuesta = br.lines()
+                    .map(cadena -> cadena.split(";"))
+                    .filter(datos -> datos[0].equals(codigo))
+                    .map(datos -> {
+                        var curso = new Curso();
+                        curso.setCodigo(datos[0]);
+                        curso.setNombre(datos[1]);
+                        curso.setSemestre(Integer.valueOf(datos[2]));
+                        return curso;
+                    })
+                    .findAny()
+                    .orElseThrow(() -> new BaseDatosException(""));
+        } catch (IOException ex) {
+            throw new BaseDatosException(ex.getMessage());
+        }
+        return respuesta;
     }
 
 }

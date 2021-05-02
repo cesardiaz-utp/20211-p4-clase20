@@ -59,6 +59,14 @@ public class UniversidadFacade {
         return listado;
     }
 
+    public Curso consultarCurso(String codigo) throws NoEncontradoException {
+        try {
+            return cursoDao.consultar(codigo);
+        } catch (BaseDatosException ex) {
+            throw new NoEncontradoException("No existe el curso con codigo " + codigo);
+        }
+    }
+
     public Curso guardarCurso(String codigo, String nombre, Integer semestre) throws BaseDatosException {
         return cursoDao.agregar(codigo, nombre, semestre);
     }

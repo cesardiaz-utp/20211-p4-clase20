@@ -25,6 +25,8 @@ public abstract class CursoDao {
 
     public abstract List<Curso> listar() throws BaseDatosException;
 
+    public abstract Curso consultar(String codigo) throws BaseDatosException;
+
     public abstract Curso agregar(String codigo, String nombre, Integer semestre) throws BaseDatosException;
 
 }

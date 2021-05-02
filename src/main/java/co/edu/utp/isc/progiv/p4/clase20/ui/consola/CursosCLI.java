@@ -31,18 +31,17 @@ public class CursosCLI {
             System.out.println(" Gestión de Cursos");
             System.out.println("--------------------------------------------------------");
             System.out.println("1. Listado de cursos");
-            //System.out.println("2. Consultar un estudiante por ID");
+            System.out.println("2. Consultar un curso por código");
             System.out.println("3. Agregar un curso");
             System.out.println("0. Salir");
             System.out.println("========================================================");
-//            opcion = EntradaTecladoUtils.obtenerOpcion("1,2,3,0".split(","));
-            opcion = EntradaTecladoUtils.obtenerOpcion("1,3,0".split(","));
+            opcion = EntradaTecladoUtils.obtenerOpcion("1,2,3,0".split(","));
             switch (opcion) {
                 case "1":
                     listarCursos();
                     break;
                 case "2":
-                    consultarEstudiante();
+                    consultarCurso();
                     break;
                 case "3":
                     agregarCursos();
@@ -71,26 +70,25 @@ public class CursosCLI {
         EntradaTecladoUtils.presionaParaContinuar();
     }
    
-    private static void consultarEstudiante() {
+    private static void consultarCurso() {
         System.out.println("\n\n");
         System.out.println("========================================================");
-        System.out.println(" Consultar estudiante");
+        System.out.println(" Consultar curso");
         System.out.println("========================================================");
-        String valor;
+        String codigo;
         do {
-            valor = EntradaTecladoUtils.obtenerCadena("Ingrese la identificación del estudiante: ");
+            codigo = EntradaTecladoUtils.obtenerCadena("Ingrese el código del curso: ");
 
-            if (valor == null
-                    || valor.trim().isBlank()
-                    || !valor.matches("[0-9]+")) {
-                System.err.println("Debe ingresar una identificación válida");
-                valor = null;
+            if (codigo == null
+                    || codigo.trim().isBlank()
+                    || !codigo.matches("[A-Z][A-Z0-9]+")) {
+                System.err.println("Debe ingresar un código válido");
+                codigo = null;
             }
-        } while (valor == null);
+        } while (codigo == null);
 
-        var id = Long.valueOf(valor);
         try {
-            System.out.println(facade.consultarEstudiante(id));
+            System.out.println(facade.consultarCurso(codigo));
         } catch (NoEncontradoException ex) {
             System.err.println(ex.getMessage());
         }
