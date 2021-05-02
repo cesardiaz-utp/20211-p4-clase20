@@ -5,7 +5,6 @@
  */
 package co.edu.utp.isc.progiv.p4.clase20.ui.consola;
 
-import co.edu.utp.isc.progiv.p4.clase20.datos.entidades.Estudiante;
 import co.edu.utp.isc.progiv.p4.clase20.ui.consola.utils.EntradaTecladoUtils;
 import co.edu.utp.isc.progiv.p4.clase20.logica.UniversidadFacade;
 import co.edu.utp.isc.progiv.p4.clase20.excepciones.BaseDatosException;
@@ -26,7 +25,7 @@ public class EstudiantesCLI {
     public static void menuEstudiantes() {
         String opcion;
         do {
-            System.out.println("\n\n");
+            EntradaTecladoUtils.limpiarPantalla();
             System.out.println("========================================================");
             System.out.println(" Gestión de Estudiantes");
             System.out.println("--------------------------------------------------------");
@@ -52,7 +51,7 @@ public class EstudiantesCLI {
     }
 
     private static void listarEstudiantes() {
-        System.out.println("\n\n");
+        EntradaTecladoUtils.limpiarPantalla();
         System.out.println("========================================================");
         System.out.println(" Listado de estudiantes");
         System.out.println("========================================================");
@@ -71,7 +70,7 @@ public class EstudiantesCLI {
     }
 
     private static void consultarEstudiante() {
-        System.out.println("\n\n");
+        EntradaTecladoUtils.limpiarPantalla();
         System.out.println("========================================================");
         System.out.println(" Consultar estudiante");
         System.out.println("========================================================");
@@ -97,7 +96,7 @@ public class EstudiantesCLI {
     }
 
     private static void agregarEstudiante() {
-        System.out.println("\n\n");
+        EntradaTecladoUtils.limpiarPantalla();
         System.out.println("========================================================");
         System.out.println(" Agregar un estudiante");
         System.out.println("========================================================");

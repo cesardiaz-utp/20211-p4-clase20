@@ -20,7 +20,7 @@ public class Consola {
     private static void menuPrincipal() {
         String opcion;
         do {
-            System.out.println("\n\n");
+            EntradaTecladoUtils.limpiarPantalla();
             System.out.println("========================================================");
             System.out.println(" Bienvenidos a la Gestion Universitaria");
             System.out.println("--------------------------------------------------------");
